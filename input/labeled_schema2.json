@@ -1,0 +1,293 @@
+{
+  "format_version": "1.0",
+  "candidate_id": "L000024",
+  "technology": {
+    "name": "mongodb",
+    "version": "8.0"
+  },
+  "schema": {
+    "entities": [
+      {
+        "name": "Insegnamento",
+        "attributes": [
+          {
+            "name": "Denominazione",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "AA",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "AnnoCorso",
+            "type": "integer",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Docente",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "identifier": [
+          "Denominazione",
+          "AA"
+        ]
+      },
+      {
+        "name": "Studente",
+        "attributes": [
+          {
+            "name": "Matricola",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Nome",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Cognome",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "DataNascita",
+            "type": "date",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "DataImmatricolazione",
+            "type": "date",
+            "cardinality": {
+              "min": 0,
+              "max": 1
+            }
+          }
+        ],
+        "identifier": [
+          "Matricola"
+        ]
+      },
+      {
+        "name": "SessioneLaurea",
+        "attributes": [
+          {
+            "name": "DataLaurea",
+            "type": "date",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "identifier": [
+          "DataLaurea"
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "Esami",
+        "sides": [
+          {
+            "entity": "Studente",
+            "role": "studente",
+            "cardinality": {
+              "min": 0,
+              "max": "N"
+            }
+          },
+          {
+            "entity": "Insegnamento",
+            "role": "insegnamento",
+            "cardinality": {
+              "min": 0,
+              "max": "N"
+            }
+          }
+        ],
+        "attributes": [
+          {
+            "name": "Data",
+            "type": "date",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Voto",
+            "type": "integer",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ]
+      },
+      {
+        "name": "Frequenza",
+        "sides": [
+          {
+            "entity": "Studente",
+            "role": "studente",
+            "cardinality": {
+              "min": 0,
+              "max": "N"
+            }
+          },
+          {
+            "entity": "Insegnamento",
+            "role": "insegnamento",
+            "cardinality": {
+              "min": 0,
+              "max": "N"
+            }
+          }
+        ],
+        "attributes": [
+          {
+            "name": "PercentualePresenza",
+            "type": "number",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ]
+      },
+      {
+        "name": "ConseguimentoTitolo",
+        "sides": [
+          {
+            "entity": "Studente",
+            "role": "studente",
+            "cardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "entity": "SessioneLaurea",
+            "role": "sessione",
+            "cardinality": {
+              "min": 0,
+              "max": "N"
+            }
+          }
+        ],
+        "attributes": []
+      }
+    ]
+  },
+  "labeling": {
+    "main_entities": [
+      {
+        "entity": "Studente",
+        "collection": "Studente"
+      },
+      {
+        "entity": "Insegnamento",
+        "collection": "Insegnamento"
+      }
+    ],
+    "entity_labels": [
+      {
+        "entity": "Insegnamento",
+        "label": "insegnamento"
+      },
+      {
+        "entity": "Studente",
+        "label": "studente"
+      },
+      {
+        "entity": "SessioneLaurea",
+        "label": "XLR"
+      }
+    ],
+    "encapsulations": [
+      {
+        "relationship": "ConseguimentoTitolo",
+        "entity": "SessioneLaurea",
+        "into": "Studente"
+      }
+    ],
+    "references": [
+      {
+        "relationship": "Esami",
+        "stored_in": "Studente",
+        "target": "Insegnamento",
+        "label": "id",
+        "stored_role": "studente",
+        "target_role": "insegnamento"
+      },
+      {
+        "relationship": "Frequenza",
+        "stored_in": "Studente",
+        "target": "Insegnamento",
+        "label": "id",
+        "stored_role": "studente",
+        "target_role": "insegnamento"
+      }
+    ]
+  },
+  "partition": [
+    {
+      "collection": "Insegnamento",
+      "main_entity": "Insegnamento",
+      "entities": [
+        "Insegnamento"
+      ],
+      "encapsulation_relationships": []
+    },
+    {
+      "collection": "Studente",
+      "main_entity": "Studente",
+      "entities": [
+        "Studente",
+        "Insegnamento",
+        "SessioneLaurea"
+      ],
+      "encapsulation_relationships": [
+        "Esami",
+        "ConseguimentoTitolo"
+      ]
+    },
+    {
+      "collection": "SessioneLaurea",
+      "main_entity": "SessioneLaurea",
+      "entities": [
+        "SessioneLaurea"
+      ],
+      "encapsulation_relationships": []
+    }
+  ]
+}

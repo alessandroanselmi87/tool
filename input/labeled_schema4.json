@@ -1,0 +1,315 @@
+{
+  "format_version": "1.0",
+  "candidate_id": "L000026",
+  "technology": {
+    "name": "mongodb",
+    "version": "8.0"
+  },
+  "schema": {
+    "entities": [
+      {
+        "name": "Movimento",
+        "attributes": [
+          {
+            "name": "Numero",
+            "type": "integer",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Tipo",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Data",
+            "type": "date",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Valore",
+            "type": "number",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "identifier": [
+          "Numero",
+          "Tipo",
+          "Data"
+        ]
+      },
+      {
+        "name": "Filiale",
+        "attributes": [
+          {
+            "name": "Codice",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "NumeroClienti",
+            "type": "integer",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Indirizzo",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Nome",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "identifier": [
+          "Codice"
+        ]
+      },
+      {
+        "name": "ContoCorrente",
+        "attributes": [
+          {
+            "name": "Saldo",
+            "type": "number",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Numero",
+            "type": "integer",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "identifier": [
+          "Numero"
+        ]
+      },
+      {
+        "name": "Cliente",
+        "attributes": [
+          {
+            "name": "CodiceFiscale",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Nome",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Cognome",
+            "type": "string",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "DataNascita",
+            "type": "date",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "name": "Professione",
+            "type": "string",
+            "cardinality": {
+              "min": 0,
+              "max": 1
+            }
+          }
+        ],
+        "identifier": [
+          "CodiceFiscale"
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "Operativita",
+        "sides": [
+          {
+            "entity": "ContoCorrente",
+            "role": "conto",
+            "cardinality": {
+              "min": 0,
+              "max": "N"
+            }
+          },
+          {
+            "entity": "Movimento",
+            "role": "movimento",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "attributes": []
+      },
+      {
+        "name": "Intestazione",
+        "sides": [
+          {
+            "entity": "Cliente",
+            "role": "cliente",
+            "cardinality": {
+              "min": 0,
+              "max": "N"
+            }
+          },
+          {
+            "entity": "ContoCorrente",
+            "role": "conto",
+            "cardinality": {
+              "min": 1,
+              "max": "N"
+            }
+          }
+        ],
+        "attributes": []
+      },
+      {
+        "name": "Apertura",
+        "sides": [
+          {
+            "entity": "Filiale",
+            "role": "filiale",
+            "cardinality": {
+              "min": 0,
+              "max": "N"
+            }
+          },
+          {
+            "entity": "ContoCorrente",
+            "role": "conto",
+            "cardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "attributes": []
+      }
+    ]
+  },
+  "labeling": {
+    "main_entities": [
+      {
+        "entity": "Filiale",
+        "collection": "Filiale"
+      },
+      {
+        "entity": "ContoCorrente",
+        "collection": "ContoCorrente"
+      },
+      {
+        "entity": "Cliente",
+        "collection": "Cliente"
+      }
+    ],
+    "entity_labels": [
+      {
+        "entity": "Movimento",
+        "label": "X"
+      },
+      {
+        "entity": "Filiale",
+        "label": "Filiale"
+      },
+      {
+        "entity": "ContoCorrente",
+        "label": "ContoCorrente"
+      },
+      {
+        "entity": "Cliente",
+        "label": "Cliente"
+      }
+    ],
+    "encapsulations": [
+      {
+        "relationship": "Operativita",
+        "entity": "Movimento",
+        "into": "ContoCorrente"
+      }
+    ],
+    "references": [
+      {
+        "relationship": "Apertura",
+        "stored_in": "ContoCorrente",
+        "target": "Filiale",
+        "label": "id"
+      },
+      {
+        "relationship": "Intestazione",
+        "stored_in": "ContoCorrente",
+        "target": "Cliente",
+        "label": "id"
+      }
+    ]
+  },
+  "partition": [
+    {
+      "collection": "Filiale",
+      "main_entity": "Filiale",
+      "entities": [
+        "Filiale"
+      ],
+      "encapsulation_relationships": []
+    },
+    {
+      "collection": "ContoCorrente",
+      "main_entity": "ContoCorrente",
+      "entities": [
+        "ContoCorrente"
+      ],
+      "encapsulation_relationships": []
+    },
+    {
+      "collection": "Cliente",
+      "main_entity": "Cliente",
+      "entities": [
+        "Cliente"
+      ],
+      "encapsulation_relationships": []
+    }
+  ]
+}

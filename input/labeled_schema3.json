@@ -1,0 +1,383 @@
+{
+    "format_version": "1.0",
+    "candidate_id": "L000025",
+    "technology": {
+        "name": "mongodb",
+        "version": "8.0"
+    },
+    "schema": {
+        "entities": [
+            {
+                "name": "Azienda",
+                "attributes": [
+                    {
+                        "name": "CodiceAzienda",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "RagioneSociale",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "PartitaIVA",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "Settore",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "DataFondazione",
+                        "type": "date",
+                        "cardinality": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                ],
+                "identifier": [
+                    "CodiceAzienda"
+                ]
+            },
+            {
+                "name": "Cliente",
+                "attributes": [
+                    {
+                        "name": "CodiceCliente",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "Nome",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "Cognome",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "Email",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "Citta",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                ],
+                "identifier": [
+                    "CodiceCliente"
+                ]
+            },
+            {
+                "name": "Fornitore",
+                "attributes": [
+                    {
+                        "name": "CodiceFornitore",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "RagioneSociale",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "PartitaIVA",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "Telefono",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    }
+                ],
+                "identifier": [
+                    "CodiceFornitore"
+                ]
+            }
+        ],
+        "relationships": [
+            {
+                "name": "Fornitura",
+                "sides": [
+                    {
+                        "entity": "Fornitore",
+                        "role": "fornitore",
+                        "cardinality": {
+                            "min": 0,
+                            "max": "N"
+                        }
+                    },
+                    {
+                        "entity": "Azienda",
+                        "role": "azienda",
+                        "cardinality": {
+                            "min": 0,
+                            "max": "N"
+                        }
+                    }
+                ],
+                "attributes": [
+                    {
+                        "name": "DataInizio",
+                        "type": "date",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "DataFine",
+                        "type": "date",
+                        "cardinality": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "Attiva",
+                        "type": "boolean",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "Contratto",
+                "sides": [
+                    {
+                        "entity": "Cliente",
+                        "role": "cliente",
+                        "cardinality": {
+                            "min": 0,
+                            "max": "N"
+                        }
+                    },
+                    {
+                        "entity": "Azienda",
+                        "role": "azienda",
+                        "cardinality": {
+                            "min": 0,
+                            "max": "N"
+                        }
+                    }
+                ],
+                "attributes": [
+                    {
+                        "name": "NumeroContratto",
+                        "type": "string",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "DataStipula",
+                        "type": "date",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "DurataMesi",
+                        "type": "integer",
+                        "cardinality": {
+                            "min": 0,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "Rinnovabile",
+                        "type": "boolean",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "Vendita",
+                "sides": [
+                    {
+                        "entity": "Cliente",
+                        "role": "cliente",
+                        "cardinality": {
+                            "min": 0,
+                            "max": "N"
+                        }
+                    },
+                    {
+                        "entity": "Azienda",
+                        "role": "azienda",
+                        "cardinality": {
+                            "min": 0,
+                            "max": "N"
+                        }
+                    }
+                ],
+                "attributes": [
+                    {
+                        "name": "DataVendita",
+                        "type": "date",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "Importo",
+                        "type": "integer",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    },
+                    {
+                        "name": "Pagata",
+                        "type": "boolean",
+                        "cardinality": {
+                            "min": 1,
+                            "max": 1
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "labeling": {
+        "main_entities": [
+            {
+                "entity": "Azienda",
+                "collection": "Azienda"
+            },
+            {
+                "entity": "Cliente",
+                "collection": "Cliente"
+            },
+            {
+                "entity": "Fornitore",
+                "collection": "Fornitore"
+            }
+        ],
+        "entity_labels": [
+            {
+                "entity": "Azienda",
+                "label": "Azienda"
+            },
+            {
+                "entity": "Cliente",
+                "label": "Cliente"
+            },
+            {
+                "entity": "Fornitore",
+                "label": "Fornitore"
+            }
+        ],
+        "encapsulations": [
+            {
+                "relationship": "Vendita",
+                "entity": "Azienda",
+                "into": "Cliente"
+            }
+        ],
+        "references": [
+            {
+                "relationship": "Fornitura",
+                "stored_in": "Fornitore",
+                "target": "Azienda",
+                "label": "key",
+                "stored_role": "fornitore",
+                "target_role": "azienda"
+            },
+            {
+                "relationship": "Contratto",
+                "stored_in": "Cliente",
+                "target": "Azienda",
+                "label": "key",
+                "stored_role": "cliente",
+                "target_role": "azienda"
+            }
+        ]
+    },
+    "partition": [
+        {
+            "collection": "Azienda",
+            "main_entity": "Azienda",
+            "entities": [
+                "Azienda"
+            ],
+            "encapsulation_relationships": []
+        },
+        {
+            "collection": "Cliente",
+            "main_entity": "Cliente",
+            "entities": [
+                "Cliente",
+                "Azienda"
+            ],
+            "encapsulation_relationships": [
+                "Vendita"
+            ]
+        },
+        {
+            "collection": "Fornitore",
+            "main_entity": "Fornitore",
+            "entities": [
+                "Fornitore"
+            ],
+            "encapsulation_relationships": []
+        }
+    ]
+}

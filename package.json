@@ -1,0 +1,26 @@
+{
+  "name": "generazione_mongodb_fisico",
+  "version": "1.0.0",
+  "description": "Generazione di schemi fisici per mongodb a partire da schemi ER etichettati",
+  "license": "MIT",
+  "author": "Alessandro Anselmi",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js",
+    "generate": "npm run build && node dist/generate.js",
+    "dev": "tsx watch src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.7",
+    "mongodb": "^7.7.0",
+    "openai": "^7.34.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
