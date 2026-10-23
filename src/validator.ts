@@ -1,5 +1,7 @@
 
-export function validateERSchema(input: any) {
+import { LabeledSchema } from './interfaces.js';
+
+export function validateERSchema(input: LabeledSchema) {
     const errors: string[] = [];
 
     if (!input || typeof input !== "object") {
@@ -30,17 +32,18 @@ export function validateERSchema(input: any) {
             continue;
         }
 
-        const attrs = new Set();
-        for (const attr of entity.attributes) {
-            if (!attr.name) errors.push(`Attributo senza name in ${entity.name}.`);
-            if (attrs.has(attr.name)) {
-                errors.push(`Attributo duplicato ${entity.name}.${attr.name}`);
+        const attributes = new Set();
+        for (const attribute of entity.attributes) {
+            if (!attribute.name) errors.push(`Attributo senza name in ${entity.name}.`);
+            if (!attribute.cardinality) errors.push(`Attributo senza cardinalità in ${entity.name}.`);
+            if (attributes.has(attribute.name)) {
+                errors.push(`Attributo duplicato ${entity.name}.${attribute.name}`);
             }
-            attrs.add(attr.name);
+            attributes.add(attribute.name);
 
-            if (!attr.type) errors.push(`Tipo mancante per ${entity.name}.${attr.name}.`);
-            if (!attr.cardinality) {
-                errors.push(`Cardinalità mancante per ${entity.name}.${attr.name}.`);
+            if (!attribute.type) errors.push(`Tipo mancante per ${entity.name}.${attribute.name}.`);
+            if (!attribute.cardinality) {
+                errors.push(`Cardinalità mancante per ${entity.name}.${attribute.name}.`);
             }
         }
 
@@ -50,21 +53,21 @@ export function validateERSchema(input: any) {
     }
 
     const relationshipNames = new Set();
-    for (const rel of input.schema?.relationships ?? []) {
-        if (!rel.name) errors.push("Relazione senza name.");
-        if (relationshipNames.has(rel.name)) {
-            errors.push(`Relazione duplicata: ${rel.name}`);
+    for (const relationship of input.schema?.relationships ?? []) {
+        if (!relationship.name) errors.push("Relazione senza name.");
+        if (relationshipNames.has(relationship.name)) {
+            errors.push(`Relazione duplicata: ${relationship.name}`);
         }
-        relationshipNames.add(rel.name);
+        relationshipNames.add(relationship.name);
 
-        if (!Array.isArray(rel.sides) || rel.sides.length !== 2) {
-            errors.push(`La relazione ${rel.name} deve avere esattamente due sides.`);
+        if (!Array.isArray(relationship.sides) || relationship.sides.length !== 2) {
+            errors.push(`La relazione ${relationship.name} deve avere esattamente due sides.`);
             continue;
         }
 
-        for (const side of rel.sides) {
+        for (const side of relationship.sides) {
             if (!entityNames.has(side.entity)) {
-                errors.push(`La relazione ${rel.name} cita entità inesistente: ${side.entity}`);
+                errors.push(`La relazione ${relationship.name} cita entità inesistente: ${side.entity}`);
             }
         }
     }

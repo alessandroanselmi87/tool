@@ -1,10 +1,18 @@
 
 import { ObjectId } from 'mongodb';
 import OpenAI from "openai";
+import {
+    LabeledSchema,
+    Entity,
+    Relationship,
+    Attribute,
+    Encapsulation,
+    Cardinality
+ } from './interfaces.js';
 
 export default class Collection {
 
-    create(dati: any) {
+    create(dati: LabeledSchema) {
         const map: any = {};
         console.log(`Costruisco una mappa di entità`);
         for (const entity of dati.schema.entities) {
@@ -21,11 +29,11 @@ export default class Collection {
             console.log(`Costruisco il documento per ${main_entity.entity}`);
             let data = this.buildTree(main_entity.entity, dati, map, true);
             for (const reference of dati.labeling.references) {
-                let _entity = dati.schema.entities.find((item: any) => item.name === reference.target);
+                let _entity = dati.schema.entities.find((item: Entity) => item.name === reference.target);
                 if (!_entity) {
                     throw new Error(`L'entità "${reference.target}" non trovata`);
                 }
-                let identifiers = _entity.attributes.filter((item: any) => _entity.identifier.includes(item.name));
+                let identifiers = _entity.attributes.filter((item: Attribute) => _entity.identifier.includes(item.name));
                 if (identifiers.length === 0) {
                     throw new Error(`Attributi non trovati per "${_entity.name}"`);
                 }
@@ -40,7 +48,10 @@ export default class Collection {
                         item[`${_entity.name}_${id.name}`] = this.makeAttributeType(id);
                     }
                 }
-                let relationship_attributes = dati.schema.relationships.find((item: any) => item.name === reference.relationship);
+                let relationship_attributes = dati.schema.relationships.find((item: Relationship) => item.name === reference.relationship);
+                if (!relationship_attributes) {
+                    throw new Error(`Relationship non trovata per "${reference.relationship}"`);
+                }
                 for (const attribute of relationship_attributes.attributes) {
                     // item[attr.name] = this.makeExampleValue(attribute);
                     item[attribute.name] = this.makeAttributeType(attribute);
@@ -59,7 +70,7 @@ export default class Collection {
         return collection;
     }
 
-    buildTree(entity: string, dati: any, map: any, isFirst: boolean) {
+    buildTree(entity: string, dati: LabeledSchema, map: any, isFirst: boolean) {
 
         let node = {
             ...(isFirst ? { _id: new ObjectId() } : {}),
@@ -68,10 +79,13 @@ export default class Collection {
 
         isFirst = false;
 
-        const children = dati.labeling.encapsulations.filter((item: any) => item.into === entity);
+        const children = dati.labeling.encapsulations.filter((item: Encapsulation) => item.into === entity);
 
         for (const child of children) {
-            let relationship = dati.schema.relationships.find((item: any) => item.name === child.relationship);
+            let relationship = dati.schema.relationships.find((item: Relationship) => item.name === child.relationship);
+            if (!relationship) {
+                throw new Error(`Relationship non trovata per "${child.relationship}"`);
+            }
             let attributes_relationship: any = {};
             for (const attribute of relationship.attributes) {
                 // attributes_relationship[attribute.name] = this.makeExampleValue(attribute);
@@ -89,16 +103,16 @@ export default class Collection {
         return node;
     }
 
-    cardinalityIsMany(cardinality: any) {
+    cardinalityIsMany(cardinality: Cardinality) {
        return (cardinality?.max === "N" || Number(cardinality?.max) > 1);
     }
 
-    makeAttributeType(attribute: any) {
+    makeAttributeType(attribute: Attribute) {
         const many = this.cardinalityIsMany(attribute.cardinality);
         return (many ? `Array<${attribute.type}>` : attribute.type);
     }
 
-    makeExampleValue(attribute: any) {
+    makeExampleValue(attribute: Attribute) {
         const many = this.cardinalityIsMany(attribute.cardinality);
         const value = (() => {
             switch (attribute.type) {

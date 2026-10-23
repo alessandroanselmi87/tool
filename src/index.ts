@@ -3,10 +3,11 @@ import Collection from './collection.js';
 import { validateERSchema } from './validator.js';
 import { parseJson, readFile } from './utils.js';
 import * as dotenv from 'dotenv';
+import { LabeledSchema } from './interfaces.js';
 
 dotenv.config();
 
-function validate(data: any) {
+function validate(data: LabeledSchema) {
     const errors = validateERSchema(data);
     if (errors.length) {
         console.error(`Schema ER non valido:\n- ${errors.join("\n- ")}`);
@@ -25,7 +26,7 @@ function writeFile(data: any) {
 async function main() {
     
     const contenuto = readFile(`input/${process.env.FILE_NAME}.json`);
-    let dati: any = parseJson(contenuto);
+    let dati: LabeledSchema = parseJson(contenuto);
 
     validate(dati);
     
@@ -36,4 +37,4 @@ async function main() {
     writeFile(data);
 }
 
-main();
+await main();
