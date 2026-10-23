@@ -9,6 +9,7 @@ import {
     Encapsulation,
     Cardinality
  } from './interfaces.js';
+import { parseJson } from './utils.js';
 
 export default class Collection {
 
@@ -38,6 +39,9 @@ export default class Collection {
                 }
                 let item: any = {};
                 if (reference.label === "id") {
+                    if (identifiers.length !== 1) {
+                        throw new Error("Trovati più di un identificatore");
+                    }
                     identifiers[0].type = "integer";
                     item[`${entity.name}_id`] = this.makeAttributeType(identifiers[0]);
                 } else if (reference.label === "key") {
@@ -115,6 +119,6 @@ export default class Collection {
         });
         console.log(`Generati i dati:\n${response.output_text}`);
 
-        return JSON.parse(response.output_text);
+        return parseJson(response.output_text);
     }
 }
