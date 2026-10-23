@@ -26,12 +26,12 @@ function writeFile(data: any) {
 async function main() {
     
     const contenuto = readFile(`input/${process.env.FILE_NAME}.json`);
-    let dati: LabeledSchema = parseJson(contenuto);
+    let schema: LabeledSchema = parseJson(contenuto);
 
-    validate(dati);
+    validate(schema);
     
     const collection = new Collection();
-    const collectionData = collection.create(dati);
+    const collectionData = collection.create(schema);
     const data = await collection.generateData(collectionData, process.env.OPENAI_KEY_API);
 
     writeFile(data);
