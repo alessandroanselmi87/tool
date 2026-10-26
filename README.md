@@ -2,9 +2,9 @@
 
 ## Presentation
 Il progetto è stato sviluppato in NodeJS usando Typescript.
-La cartella input già presente include i file json della configurazione dello schema delle entità ER etichettate.
-La cartella output viene generata e include i file json per le collezioni di documenti valorizzando i campi tramite AI.
-La cartella html viene generata e include i file html per visualizzare la struttura ad albero dei json dei file nella cartella output.
+- La cartella input già presente include i file json della configurazione dello schema delle entità ER etichettate.
+- La cartella output viene generata e include i file json per le collezioni di documenti valorizzando i campi tramite AI.
+- La cartella html viene generata e include i file html per visualizzare la struttura ad albero dei json dei file nella cartella output.
 
 ## Configuration
 - Manca il file .env da creare in locale con le seguenti configurazioni:
