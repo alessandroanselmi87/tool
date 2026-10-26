@@ -11,9 +11,11 @@
     "start": "npm run build && node dist/index.js",
     "generate": "npm run build && node dist/generate.js",
     "dev": "tsx watch src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "viewer": "npm run build && node dist/viewer.js"
   },
   "dependencies": {
+    "@andypf/json-viewer": "^2.8.0",
     "dotenv": "^18.0.7",
     "mongodb": "^7.7.0",
     "openai": "^7.34.0"
