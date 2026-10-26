@@ -12,7 +12,8 @@
     "generate": "npm run build && node dist/generate.js",
     "dev": "tsx watch src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "viewer": "npm run build && node dist/viewer.js"
+    "viewer": "npm run build && node dist/viewer.js",
+    "all": "npm run build && node dist/index.js && node dist/generate.js && node dist/viewer.js"
   },
   "dependencies": {
     "@andypf/json-viewer": "^2.8.0",

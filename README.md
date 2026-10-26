@@ -41,3 +41,9 @@ Genera su database MongoDb con le configurazioni presenti nel file .env le colle
 npm run viewer
 ```
 Genera un file html nella cartella html della struttura ad albero del file json risultante nella cartella output con Json Viewer.
+
+## All compilation
+```
+npm run all
+```
+Esegue la compilazione di tutti gli step precedenti.
