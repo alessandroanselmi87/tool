@@ -39,9 +39,6 @@ export default class Collection {
                 }
                 let item: any = {};
                 if (reference.label === "id") {
-                    if (identifiers.length !== 1) {
-                        throw new Error("Trovati più di un identificatore");
-                    }
                     identifiers[0].type = "integer";
                     item[`${entity.name}_id`] = this.makeAttributeType(identifiers[0]);
                 } else if (reference.label === "key") {
