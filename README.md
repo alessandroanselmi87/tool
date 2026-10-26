@@ -1,5 +1,16 @@
 # tool
 
+- Manca il file .env da creare in locale con le seguenti configurazioni:
+
+```
+NODE_ENV=development
+PORT=27017
+HOST=127.0.0.1
+DATABASE=testdb
+OPENAI_KEY_API=<yourOpenAiKeyApi>
+FILE_NAME=labeled_schema2
+```
+
 ## Install
 ```
 npm install
@@ -16,7 +27,7 @@ Compila i file js per generare una struttura di collezioni di documenti per Mong
 ```
 npm run generate
 ```
-Genera su database MongoDb con le configurazioni presente nel file .env le collezioni di documenti.
+Genera su database MongoDb con le configurazioni presenti nel file .env le collezioni di documenti.
 
 ## Viewer
 ```
