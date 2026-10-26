@@ -8,11 +8,11 @@ dotenv.config();
 
 const inputPath = `output/results_${process.env.FILE_NAME}.json`;
 if (!fs.existsSync(inputPath)) {
-    console.log(`Non esiste questo file della cartella output: ${inputPath}`);
-    process.exit(1);
+  console.log(`Manca il file: ${inputPath}`);
+  process.exit(1);
 }
 if (!fs.existsSync('html')) {
-    fs.mkdirSync('html');
+  fs.mkdirSync('html');
 }
 const outputPath = `html/viewer_${process.env.FILE_NAME}.html`;
 
