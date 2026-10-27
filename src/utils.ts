@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export function parseJson(contenuto: any) {
+export function parseJson(contenuto: string) {
     let dati: any = {};
     try {
         dati = JSON.parse(contenuto);
