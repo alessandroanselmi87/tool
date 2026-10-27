@@ -99,9 +99,16 @@ export default class Collection {
        return (cardinality?.max === "N" || Number(cardinality?.max) > 1);
     }
 
+    makeSize(attribute: Attribute) {
+        if (attribute.cardinality.max !== "N" && Number(attribute.cardinality.max) > 1) {
+            return `[${attribute.cardinality.max}]`;
+        }
+        return ``;
+    }
+
     makeAttributeType(attribute: Attribute) {
         const many = this.cardinalityIsMany(attribute.cardinality);
-        return (many ? `Array<${attribute.type}>` : attribute.type);
+        return (many ? `Array<${attribute.type}>${this.makeSize(attribute)}` : attribute.type);
     }
 
     async generateData(data: any, apiKey: any) {
