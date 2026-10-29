@@ -16,6 +16,7 @@ HOST=127.0.0.1
 DATABASE=testdb
 OPENAI_KEY_API=<yourOpenAiKeyApi>
 FILE_NAME=labeled_schema2
+MODEL_GPT=gpt-6-luna
 ```
 
 ## Install

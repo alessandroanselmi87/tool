@@ -117,7 +117,7 @@ export default class Collection {
 
         console.log("Generando fake data con Open AI...");
         const response = await client.responses.create({
-            model: "gpt-6-luna",
+            model: process.env.MODEL_GPT,
             input: `A partire da questo json "${JSON.stringify(data)}" restituiscimi il json mantenendo 
                     la stessa struttura con i campi valorizzati in base al tipo senza aggiungere altro.`,
         });
